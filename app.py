@@ -65,7 +65,7 @@ QUESTIONS = [
     {
         "id": 6,
         "type": "textarea",
-        "question": "how would you describe them to your therapist?",
+        "question": "how would you describe them to your mom?",
         "placeholder": "their personality, quirks, what makes them unique",
         "key": "therapy_description"
     },

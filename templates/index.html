@@ -11,164 +11,75 @@
         justify-content: center;
         align-items: center;
         text-align: center;
-        padding: 40px 20px;
-        position: relative;
-        overflow: hidden;
+        padding: 60px 20px;
         background: #000000;
-    }
-
-    .floating-elements {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 0;
-    }
-
-    .floating-gift {
-        position: absolute;
-        font-size: 1.8rem;
-        opacity: 0.4;
-        animation: float 8s ease-in-out infinite;
-    }
-
-    .floating-gift:nth-child(1) { top: 15%; left: 10%; animation-delay: 0s; }
-    .floating-gift:nth-child(2) { top: 25%; right: 15%; animation-delay: 1s; }
-    .floating-gift:nth-child(3) { top: 45%; left: 5%; animation-delay: 2s; }
-    .floating-gift:nth-child(4) { top: 60%; right: 10%; animation-delay: 3s; }
-    .floating-gift:nth-child(5) { top: 75%; left: 20%; animation-delay: 4s; }
-    .floating-gift:nth-child(6) { top: 35%; right: 25%; animation-delay: 5s; }
-    .floating-gift:nth-child(7) { top: 55%; left: 15%; animation-delay: 6s; }
-    .floating-gift:nth-child(8) { top: 20%; right: 30%; animation-delay: 7s; }
-
-    @keyframes float {
-        0%, 100% { transform: translateY(0px) rotate(0deg); }
-        25% { transform: translateY(-20px) rotate(5deg); }
-        50% { transform: translateY(-10px) rotate(-3deg); }
-        75% { transform: translateY(-15px) rotate(2deg); }
+        max-width: 500px;
+        margin: 0 auto;
     }
 
     .hero-content {
-        position: relative;
-        z-index: 1;
-        max-width: 600px;
+        max-width: 400px;
     }
-
 
     .hero-title {
-        font-size: 4.5rem;
-        font-weight: 500;
-        color: #ff8c42;
-        margin-bottom: 16px;
-        text-shadow: none;
-        line-height: 0.9;
-    }
-
-    .hero-tagline {
-        font-size: 1.2rem;
-        color: #ff8c42;
-        margin-bottom: 24px;
-        font-weight: 500;
-        text-transform: lowercase;
-        letter-spacing: 1px;
+        font-size: 2.8rem;
+        font-weight: 400;
+        color: #ffffff;
+        margin-bottom: 12px;
+        line-height: 1.1;
+        font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
     .hero-subtitle {
-        font-size: 1.3rem;
-        color: rgba(255, 255, 255, 0.9);
-        margin-bottom: 60px;
+        font-size: 1rem;
+        color: #999;
+        margin-bottom: 48px;
         font-weight: 400;
-        line-height: 1.5;
-        max-width: 500px;
-        margin-left: auto;
-        margin-right: auto;
+        line-height: 1.4;
     }
 
-
     .cta-button {
-        background: linear-gradient(0deg, #ff8c42 0%, #cc5500 100%);
-        color: white;
-        padding: 24px 48px;
-        font-size: 18px;
-        font-weight: 600;
+        background: #ffffff;
+        color: #000000;
+        padding: 12px 24px;
+        font-size: 14px;
+        font-weight: 500;
         border-radius: 4px;
-        border: 1px solid #ff8c42;
+        border: none;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.2s ease;
         text-decoration: none;
         display: inline-block;
-        box-shadow: none;
-        position: relative;
-        overflow: hidden;
     }
 
     .cta-button:hover {
-        transform: translateY(-3px);
-        background: linear-gradient(0deg, #cc5500 0%, #b8460e 100%);
-    }
-
-    .button-glow {
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        transition: left 0.6s ease;
-    }
-
-    .cta-button:hover .button-glow {
-        left: 100%;
+        background: #f0f0f0;
     }
 
     @media (max-width: 768px) {
         .hero-title {
-            font-size: 3.5rem;
+            font-size: 2.4rem;
         }
         
         .hero-subtitle {
-            font-size: 1.1rem;
-            margin-bottom: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 36px;
         }
         
         .cta-button {
-            padding: 20px 40px;
-            font-size: 16px;
-        }
-        
-        .floating-gift {
-            font-size: 1.5rem;
+            padding: 10px 20px;
+            font-size: 14px;
         }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="hero fade-in">
-    <div class="floating-elements">
-        <div class="floating-gift">🎁</div>
-        <div class="floating-gift">💝</div>
-        <div class="floating-gift">🎀</div>
-        <div class="floating-gift">🌟</div>
-        <div class="floating-gift">✨</div>
-        <div class="floating-gift">🔮</div>
-        <div class="floating-gift">💫</div>
-        <div class="floating-gift">🎊</div>
-    </div>
-    
+<div class="hero">
     <div class="hero-content">
-        <h1 class="hero-title heading">ruby AI</h1>
-        <div class="hero-tagline">gift psychology decoded</div>
-        <p class="hero-subtitle body-text">discover the perfect gifts through AI-powered personality analysis</p>
-        
-        
-        <a href="{{ url_for('questions') }}" class="cta-button">
-            <span>start reading</span>
-            <div class="button-glow"></div>
-        </a>
-        
+        <h1 class="hero-title">ruby ai</h1>
+        <p class="hero-subtitle">personalized gift recommendations through psychology</p>
+        <a href="{{ url_for('questions') }}" class="cta-button">start</a>
     </div>
 </div>
 {% endblock %}
