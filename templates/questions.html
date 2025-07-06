@@ -94,11 +94,12 @@
     .question-input {
         width: 100%;
         padding: 24px;
-        border: 1px solid #333;
+        border: 1px solid #555;
         border-radius: 4px;
         font-family: 'Plus Jakarta Sans', sans-serif;
         font-size: 18px;
-        background: white;
+        background: #2a2a2a;
+        color: #ffffff;
         margin: 30px 0 40px 0;
         resize: vertical;
         min-height: 120px;
@@ -111,6 +112,7 @@
         outline: none;
         border-color: #ff8c42;
         box-shadow: 0 0 0 2px rgba(255, 140, 66, 0.2);
+        background: #333333;
     }
 
     .question-input::placeholder {
@@ -442,22 +444,23 @@ let answers = {};
 let chipSelections = {};
 let totalQuestions = {{ questions|length }};
 
-// Add at the beginning of the script section, replace the existing touch handling
+// Corrected touch handling - much more strict
 let touchStartX = 0;
 let touchStartY = 0;
 let touchEndX = 0;
 let touchEndY = 0;
 let isSwiping = false;
-let swipeThreshold = 50;
+let swipeThreshold = 100; // Increased from 50
 let touchStartTime = 0;
-let maxSwipeTime = 500;
+let maxSwipeTime = 300; // Reduced from 500
+let isActualSwipe = false;
 
-// Mobile-first navigation - prioritize touch events
 document.addEventListener('touchstart', function(e) {
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
     touchStartTime = Date.now();
     isSwiping = false;
+    isActualSwipe = false;
 }, { passive: true });
 
 document.addEventListener('touchmove', function(e) {
@@ -469,10 +472,11 @@ document.addEventListener('touchmove', function(e) {
     const deltaX = Math.abs(touchCurrentX - touchStartX);
     const deltaY = Math.abs(touchCurrentY - touchStartY);
     
-    // Only consider it a swipe if horizontal movement > vertical movement
-    if (deltaX > deltaY && deltaX > 30) {
+    // Much stricter swipe detection
+    if (deltaX > deltaY && deltaX > 80 && deltaX > deltaY * 2) {
         isSwiping = true;
-        e.preventDefault(); // Prevent scrolling during swipe
+        isActualSwipe = true;
+        e.preventDefault();
     }
 }, { passive: false });
 
@@ -486,36 +490,26 @@ document.addEventListener('touchend', function(e) {
     const deltaX = touchEndX - touchStartX;
     const deltaY = Math.abs(touchEndY - touchStartY);
     
-    // Only process swipe if it was quick enough and primarily horizontal
-    if (isSwiping && swipeTime < maxSwipeTime && deltaY < 100) {
+    // Only process if it's clearly an intentional swipe
+    if (isActualSwipe && swipeTime < maxSwipeTime && deltaY < 80) {
         if (deltaX > swipeThreshold) {
-            // Swipe right - go to previous question
             e.preventDefault();
             prevQuestion();
         } else if (deltaX < -swipeThreshold) {
-            // Swipe left - go to next question  
             e.preventDefault();
             nextQuestion();
         }
     }
     
-    // Reset touch tracking
+    // Reset all tracking
     touchStartX = 0;
     touchStartY = 0;
     touchEndX = 0;
     touchEndY = 0;
     isSwiping = false;
+    isActualSwipe = false;
     touchStartTime = 0;
 }, { passive: false });
-
-// Prevent button clicks during swipe gestures
-document.addEventListener('click', function(e) {
-    if (isSwiping) {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-    }
-}, true);
 
 // Initialize first question
 document.addEventListener('DOMContentLoaded', function() {
