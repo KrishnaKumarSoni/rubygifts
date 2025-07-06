@@ -1,0 +1,328 @@
+{% extends "base.html" %}
+
+{% block title %}ruby AI - share your reading{% endblock %}
+
+{% block styles %}
+<style>
+    body {
+        background: linear-gradient(135deg, #ff6b35 0%, #ff8e53 100%);
+        color: white;
+    }
+
+    .share-container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    .share-card {
+        background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+        border: 1px solid #333;
+        border-radius: 4px;
+        padding: 40px;
+        margin: 40px 0;
+        max-width: 400px;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .share-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #ff8c42, #cc5500, #ff8c42);
+        border-radius: 4px;
+    }
+
+    .share-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: #fff;
+    }
+
+    .friend-name {
+        font-size: 2rem;
+        font-weight: 600;
+        color: #ffd700;
+        margin-bottom: 16px;
+    }
+
+    .accuracy-highlight {
+        background: linear-gradient(135deg, #ff8c42, #cc5500);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .prediction-snippet {
+        font-size: 1rem;
+        color: #ccc;
+        font-style: normal;
+        line-height: 1.5;
+        margin-bottom: 24px;
+        padding: 16px;
+        background: rgba(255, 140, 66, 0.1);
+        border-radius: 4px;
+        border-left: 4px solid #ff8c42;
+    }
+
+    .ruby-branding {
+        font-size: 0.9rem;
+        color: #999;
+        margin-top: 16px;
+    }
+
+    .share-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        max-width: 400px;
+        width: 100%;
+    }
+
+    .share-btn {
+        background: linear-gradient(0deg, #ff8c42 0%, #cc5500 100%);
+        color: white;
+        border: 1px solid #ff8c42;
+        padding: 18px 32px;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+    }
+
+    .share-btn:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(0deg, #cc5500 0%, #b8460e 100%);
+    }
+
+    .share-btn.secondary {
+        background: transparent;
+        color: white;
+        border: 1px solid white;
+        border-radius: 4px;
+    }
+
+    .share-btn.secondary:hover {
+        background: linear-gradient(180deg, #ffffff 0%, #f0f0f0 100%);
+        color: #ff8c42;
+    }
+
+    .main-title {
+        font-size: 2.5rem;
+        font-weight: 500;
+        margin-bottom: 16px;
+        color: white;
+    }
+
+    .main-subtitle {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 40px;
+    }
+
+    .social-icons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin: 30px 0;
+    }
+
+    .social-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        font-size: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .social-icon:hover {
+        background: white;
+        color: #ff8c42;
+        transform: scale(1.1);
+    }
+
+    .download-btn {
+        background: linear-gradient(0deg, #ff8c42 0%, #cc5500 100%);
+        color: white;
+        border: 1px solid #ff8c42;
+        padding: 16px 32px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+    }
+
+    .download-btn:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(0deg, #cc5500 0%, #b8460e 100%);
+    }
+
+    @media (max-width: 768px) {
+        .share-card {
+            padding: 32px 24px;
+        }
+        
+        .main-title {
+            font-size: 2rem;
+        }
+        
+        .share-actions {
+            gap: 12px;
+        }
+        
+        .share-btn {
+            padding: 16px 24px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="share-container">
+    <h1 class="main-title heading">share your reading</h1>
+    <p class="main-subtitle">show your friends how well you know them</p>
+    
+    <div class="share-card" id="shareCard">
+        <div class="share-title">i know <span class="friend-name" id="friendName">them</span> so well...</div>
+        <div class="accuracy-highlight" id="accuracyText">ruby AI gave me 94% accuracy</div>
+        <div class="prediction-snippet" id="predictionSnippet">
+            "they'll get that soft smile and probably hug you longer than usual"
+        </div>
+        <div class="ruby-branding">powered by ruby AI</div>
+        <button class="download-btn" onclick="downloadCard()">download card</button>
+    </div>
+    
+    <div class="social-icons">
+        <a href="#" class="social-icon" onclick="shareToTwitter()">𝕏</a>
+        <a href="#" class="social-icon" onclick="shareToInstagram()">📷</a>
+        <a href="#" class="social-icon" onclick="shareToWhatsApp()">💬</a>
+        <a href="#" class="social-icon" onclick="copyLink()">🔗</a>
+    </div>
+    
+    <div class="share-actions">
+        <button class="share-btn" onclick="shareStory()">share story</button>
+        <button class="share-btn secondary" onclick="challengeFriends()">challenge friends</button>
+        <a href="{{ url_for('index') }}" class="share-btn secondary">read someone else</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let currentReading = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadShareData();
+});
+
+function loadShareData() {
+    fetch('/api/recommendations')
+        .then(response => response.json())
+        .then(data => {
+            currentReading = data;
+            updateShareCard(data);
+        })
+        .catch(error => {
+            console.error('Error loading share data:', error);
+        });
+}
+
+function updateShareCard(data) {
+    const friendName = document.getElementById('friendName');
+    const accuracyText = document.getElementById('accuracyText');
+    const predictionSnippet = document.getElementById('predictionSnippet');
+    
+    // Use the first gift's predicted reaction as the snippet
+    if (data.gifts && data.gifts.length > 0) {
+        predictionSnippet.textContent = `"${data.gifts[0].predicted_reaction}"`;
+    }
+    
+    accuracyText.textContent = `ruby AI gave me ${data.overall_accuracy} accuracy`;
+    
+    // You might want to store the friend's name in the session during questions
+    // For now, we'll use a placeholder
+    friendName.textContent = 'my friend';
+}
+
+function downloadCard() {
+    // Using html2canvas library would be ideal here
+    // For now, we'll simulate the download
+    const button = event.target;
+    button.textContent = 'downloading...';
+    
+    setTimeout(() => {
+        button.textContent = 'download card';
+        alert('card saved to your downloads! share it with your friends.');
+    }, 1500);
+}
+
+function shareToTwitter() {
+    const text = `I just got ${currentReading?.overall_accuracy || '94%'} accuracy reading my friend with ruby AI! 🔮 Can you beat my score?`;
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`;
+    window.open(url, '_blank');
+}
+
+function shareToInstagram() {
+    // Instagram doesn't support direct sharing, so we'll copy the text
+    const text = `I just got ${currentReading?.overall_accuracy || '94%'} accuracy reading my friend with ruby AI! 🔮 Can you beat my score?`;
+    copyToClipboard(text);
+    alert('text copied! paste it in your Instagram story.');
+}
+
+function shareToWhatsApp() {
+    const text = `I just got ${currentReading?.overall_accuracy || '94%'} accuracy reading my friend with ruby AI! 🔮 Can you beat my score? Try it yourself!`;
+    const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+}
+
+function copyLink() {
+    copyToClipboard(window.location.href);
+    alert('link copied to clipboard!');
+}
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        console.log('Text copied to clipboard');
+    }).catch(err => {
+        console.error('Failed to copy text: ', err);
+    });
+}
+
+function shareStory() {
+    // Navigate to a story sharing feature
+    alert('story sharing feature coming soon! for now, download the card and share it manually.');
+}
+
+function challengeFriends() {
+    const challengeText = `I just got ${currentReading?.overall_accuracy || '94%'} accuracy reading my friend with ruby AI! 🔮 Think you know your friends better? Prove it!`;
+    copyToClipboard(challengeText);
+    alert('challenge copied! send it to your friends.');
+}
+</script>
+{% endblock %}
